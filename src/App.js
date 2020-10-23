@@ -1,24 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Quote from "./Quote";
+import QuoteButton from "./QuoteButton";
+import "./App.css";
 
 function App() {
+  const [randomQuote, setRandomQuote] = useState({});
+  const [request, setRequest] = useState(false);
+  console.log(randomQuote);
+
+  useEffect(() => {
+    fetch("https://hadiyahl-quotes.glitch.me/quotes/lodash-random")
+      .then((res) => res.json())
+      .then((quote) => setRandomQuote(quote))
+      .catch((err) => console.log(err));
+  }, [request]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Quote randomQuote={randomQuote} />
+      <QuoteButton request={request} setRequest={setRequest} />
     </div>
   );
 }
